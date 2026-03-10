@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>XP Game - Agent67</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginScreen">
+  <div class="loginLogo">Windows <span>XP</span></div>
+  <div id="loginBox">
+    <div class="loginAvatar">👤</div>
+    <div class="loginUser">Agent67</div>
+    <button id="loginBtn" onclick="doLogin()">כניסה →</button>
+  </div>
+  <div class="loginFooter">Microsoft Windows XP Professional</div>
+</div>
+
+<!-- ===== DESKTOP ===== -->
+<div id="desktop">
+  <div id="desktopBg">
+    <svg id="bgSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"
+      style="width:100%;height:100%;position:absolute;" preserveAspectRatio="xMidYMid slice">
+      <rect width="1200" height="800" fill="#2a2a2a"/>
+      <path d="M600,700 Q600,100 1200,400" fill="none" stroke="#fff" stroke-width="40" opacity=".12"/>
+      <path d="M600,700 Q600,150 1100,350" fill="none" stroke="#fff" stroke-width="35" opacity=".10"/>
+      <path d="M600,700 Q600,200 1000,320" fill="none" stroke="#fff" stroke-width="30" opacity=".08"/>
+      <path d="M600,700 Q600,100 0,400" fill="none" stroke="#fff" stroke-width="40" opacity=".12"/>
+      <path d="M600,700 Q600,150 100,350" fill="none" stroke="#fff" stroke-width="35" opacity=".10"/>
+    </svg>
+  </div>
+  <div id="desktopIcons"></div>
+
+  <!-- TASKBAR -->
+  <div id="taskbar">
+    <button id="startBtn"><span style="font-size:18px;">🪟</span> התחל</button>
+    <div id="tbCenter"></div>
+    <div id="tbRight">
+      <span id="langInd">EN</span>
+      <span id="wifiIco" title="WiFi מנותק" onclick="showWifiMenu(event)">📵</span>
+      <span id="clk">00:00</span>
+    </div>
+  </div>
+
+  <!-- WIFI MENU -->
+  <div id="wifiMenu">
+    <div class="ctxItem" id="wifiTogItem" onclick="toggleWifi()">הדלק WiFi</div>
+    <div class="ctxItem" onclick="hideWifi()">סגור</div>
+  </div>
+
+  <!-- DESKTOP RIGHT-CLICK MENU -->
+  <div id="deskCtxMenu">
+    <div class="ctxItem" onclick="arrangeIcons()">סדר אייקונים</div>
+    <div class="ctxItem" onclick="hideCtx();refreshDesk()">רענן</div>
+    <div class="ctxSep"></div>
+    <div class="ctxItem" onclick="hideCtx();openDisplaySettings()">הגדרות תצוגה</div>
+    <div class="ctxItem" onclick="hideCtx();openAbout()">מאפיינים</div>
+  </div>
+</div><!-- end #desktop -->
+
+<!-- ===== NOTEPAD ===== -->
+<div class="win" id="npWin" style="top:80px;left:120px;width:560px;height:380px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'npWin')">
+    <span>📝</span><span class="wLabel" id="npTitle">פנקס רשימות - ללא שם</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('npWin','npBtn')">_</div>
+      <div class="wBtn wBtnMax" onclick="maxWin('npWin')">□</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('npWin','npBtn')">✕</div>
+    </div>
+  </div>
+  <div class="mBar">
+    <span class="mItem" onclick="toggleM('npMFile',this)">קובץ
+      <div class="mDrop" id="npMFile">
+        <div class="mItem" onclick="npNew()">חדש</div>
+        <div class="mItem" onclick="npOpen()">פתיחה...</div>
+        <div class="mDropSep"></div>
+        <div class="mItem" onclick="npSave()">שמירה</div>
+        <div class="mItem" onclick="npSaveAs()">שמירה בשם...</div>
+      </div>
+    </span>
+    <span class="mItem" onclick="toggleM('npMEdit',this)">עריכה
+      <div class="mDrop" id="npMEdit">
+        <div class="mItem" onclick="npFind()">חיפוש...</div>
+        <div class="mItem" onclick="npReplace()">החלפה...</div>
+        <div class="mDropSep"></div>
+        <div class="mItem" onclick="document.getElementById('npArea').select();closeDrops()">בחר הכל</div>
+      </div>
+    </span>
+    <span class="mItem" onclick="toggleM('npMFmt',this)">עיצוב
+      <div class="mDrop" id="npMFmt">
+        <div class="mItem" onclick="npFontSize()">גודל פונט...</div>
+        <div class="mItem" onclick="npFontFamily()">גופן...</div>
+      </div>
+    </span>
+    <span class="mItem" onclick="showModal('עזרה','פנקס רשימות — עורך טקסט פשוט.');closeDrops()">עזרה</span>
+  </div>
+  <div id="npFindBar">
+    <span id="npFLbl" style="font-size:12px;">חיפוש:</span>
+    <input id="npFIn" type="text" placeholder="חפש..."/>
+    <input id="npRIn" type="text" placeholder="החלפה ב..." style="display:none"/>
+    <button onclick="doNpFind()">מצא</button>
+    <button id="npRBtn" onclick="doNpReplace()" style="display:none">החלפה</button>
+    <button onclick="closeNpFind()">✕</button>
+    <span id="npFMsg" style="font-size:11px;color:#a00;"></span>
+  </div>
+  <div class="wBody" style="overflow:hidden;display:flex;flex-direction:column;">
+    <textarea id="npArea" placeholder="הקלד כאן..."></textarea>
+  </div>
+</div>
+
+<!-- ===== EXPLORER ===== -->
+<div class="win" id="expWin" style="top:60px;left:80px;width:700px;height:480px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'expWin')">
+    <span>📁</span><span class="wLabel" id="expTitle">סייר הקבצים</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('expWin','expBtn')">_</div>
+      <div class="wBtn wBtnMax" onclick="maxWin('expWin')">□</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('expWin','expBtn')">✕</div>
+    </div>
+  </div>
+  <div class="mBar">
+    <span class="mItem" onclick="toggleM('expMHome',this)">בית
+      <div class="mDrop" id="expMHome">
+        <div class="mItem" onclick="expSelectAll();closeDrops()">בחר הכל</div>
+        <div class="mItem" onclick="expDeleteSelected();closeDrops()">מחיקה</div>
+        <div class="mDropSep"></div>
+        <div class="mItem" onclick="expProperties();closeDrops()">מאפיינים</div>
+      </div>
+    </span>
+    <span class="mItem" onclick="toggleM('expMView',this)">תצוגה
+      <div class="mDrop" id="expMView">
+        <div class="mItem" id="mViewIcons" onclick="setExpView('icons');closeDrops()">✓ סמלים</div>
+        <div class="mItem" id="mViewList"  onclick="setExpView('list');closeDrops()">   רשימה</div>
+      </div>
+    </span>
+  </div>
+  <div id="expToolbar">
+    <button class="navBtn" onclick="expBack()">→ חזרה</button>
+    <button class="navBtn" onclick="expFwd()">קדימה ←</button>
+    <button class="navBtn" onclick="expUp()">▲ למעלה</button>
+    <input id="expAddr" type="text" value="C:\"
+      onkeydown="if(event.key==='Enter')navTo(this.value)"
+      style="flex:1;border:1px solid #7f9db9;padding:2px 6px;font-size:12px;background:white;"/>
+    <button class="navBtn" onclick="toggleExpView()" title="שנה תצוגה">⊞</button>
+  </div>
+  <div id="expContent">
+    <div id="expTree">
+      <div class="tItem" onclick="navTo('My Computer')">💻 המחשב שלי</div>
+      <div class="tItem" style="padding-right:14px" onclick="navTo('C:\\')">💾 C:</div>
+      <div class="tItem" style="padding-right:28px" onclick="navTo('C:\\Desktop')">🖥 Desktop</div>
+      <div class="tItem" style="padding-right:28px" onclick="navTo('C:\\Downloads')">📥 Downloads</div>
+      <div class="tItem" style="padding-right:28px" onclick="navTo('C:\\Images')">🖼 Images</div>
+      <div class="tItem" style="padding-right:28px" onclick="navTo('C:\\Docs')">📄 Docs</div>
+    </div>
+    <div id="expFiles" class="icons"></div>
+  </div>
+  <div id="expStat">0 פריטים</div>
+</div>
+<div class="ctxMenu" id="fCtxMenu">
+  <div class="ctxItem" onclick="ctxOpen()">פתח</div>
+  <div class="ctxSep"></div>
+  <div class="ctxItem" onclick="ctxDel()">מחק (אל סל המחזור)</div>
+  <div class="ctxSep"></div>
+  <div class="ctxItem" onclick="ctxProps()">מאפיינים</div>
+  <div class="ctxItem" onclick="hideAllCtx()">סגור</div>
+</div>
+
+<!-- ===== RECYCLE BIN ===== -->
+<div class="win" id="recycleWin" style="top:80px;left:100px;width:580px;height:380px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'recycleWin')">
+    <span>🗑️</span><span class="wLabel">סל מחזור</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('recycleWin','recycleBtn')">_</div>
+      <div class="wBtn wBtnMax" onclick="maxWin('recycleWin')">□</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('recycleWin','recycleBtn')">✕</div>
+    </div>
+  </div>
+  <div class="mBar">
+    <span class="mItem">קובץ</span>
+    <span class="mItem">עריכה</span>
+    <span class="mItem">תצוגה</span>
+    <span class="mItem">עזרה</span>
+  </div>
+  <div class="wBody">
+    <div id="recycleFiles" style="padding:8px;display:flex;flex-wrap:wrap;gap:6px;"></div>
+  </div>
+</div>
+<div class="ctxMenu" id="recycleCtx">
+  <div class="ctxItem" onclick="recycleRestore()">שחזר</div>
+  <div class="ctxItem" onclick="recyclePermDel()">מחק לצמיתות</div>
+  <div class="ctxSep"></div>
+  <div class="ctxItem" onclick="hideAllCtx()">ביטול</div>
+</div>
+
+<!-- ===== BROWSER ===== -->
+<div class="win" id="brWin" style="top:50px;left:60px;width:720px;height:480px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'brWin')">
+    <span>🌐</span><span class="wLabel" id="brTitle">דפדפן</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('brWin','brBtn')">_</div>
+      <div class="wBtn wBtnMax" onclick="maxWin('brWin')">□</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('brWin','brBtn')">✕</div>
+    </div>
+  </div>
+  <div id="brToolbar">
+    <button class="navBtn" onclick="brBack()">→</button>
+    <button class="navBtn" onclick="brFwd()">←</button>
+    <button class="navBtn" id="brRef" onclick="brRefresh()">↻</button>
+    <input id="brAddr" type="text"
+      style="flex:1;border:1px solid #7f9db9;padding:2px 6px;font-size:12px;"
+      onkeydown="if(event.key==='Enter')brNav(this.value)"/>
+    <button class="navBtn" onclick="toggleBrMenu()" style="font-size:14px;padding:1px 8px;">☰</button>
+  </div>
+  <div id="brBody" class="wBody"></div>
+  <div id="brMenu">
+    <div class="ctxItem" onclick="hideBrMenu()">הגדרות</div>
+    <div class="ctxItem" onclick="hideBrMenu()">סימניות</div>
+    <div class="ctxItem" onclick="brShowHistory();hideBrMenu()">היסטוריה</div>
+    <div class="ctxItem" onclick="hideBrMenu()">הדפסה</div>
+    <div class="ctxSep"></div>
+    <div class="ctxItem" onclick="hideBrMenu()">אודות</div>
+  </div>
+</div>
+
+<!-- ===== IMAGE VIEWER ===== -->
+<div class="win" id="imgWin" style="top:80px;left:120px;width:520px;height:420px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'imgWin')">
+    <span>🖼️</span><span class="wLabel" id="imgTitle">מציג תמונות</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('imgWin','')">_</div>
+      <div class="wBtn wBtnMax" onclick="maxWin('imgWin')">□</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('imgWin','')">✕</div>
+    </div>
+  </div>
+  <div class="wBody" id="imgBody"
+    style="background:#1a1a1a;display:flex;align-items:center;justify-content:center;padding:10px;"></div>
+</div>
+
+<!-- ===== DEC.EXE ===== -->
+<div class="win" id="decWin" style="top:150px;left:200px;width:400px;height:230px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'decWin')">
+    <span>🔓</span><span class="wLabel">Decoder - dec.exe</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('decWin','decBtn')">_</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('decWin','decBtn')">✕</div>
+    </div>
+  </div>
+  <div class="wBody" style="padding:18px;display:flex;flex-direction:column;gap:12px;">
+    <div style="font-size:12px;color:#333;">בחר קובץ לפענוח:</div>
+    <div id="decFileLbl"
+      style="font-size:12px;color:#555;background:#f8f8f8;border:1px solid #ccc;padding:4px 8px;min-height:24px;">
+      לא נבחר קובץ
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="decChoose()"
+        style="padding:4px 12px;background:linear-gradient(180deg,#f0f0f0,#d0d0d0);border:1px solid #999;cursor:pointer;font-size:12px;">
+        בחר קובץ
+      </button>
+      <button onclick="doDecode()"
+        style="padding:4px 12px;background:linear-gradient(180deg,#c0d8ff,#7090e0);border:1px solid #5070c0;cursor:pointer;font-size:12px;">
+        פענוח
+      </button>
+    </div>
+    <div id="decMsg" style="font-size:12px;display:none;"></div>
+  </div>
+</div>
+
+<!-- ===== DISPLAY SETTINGS ===== -->
+<div class="win" id="dispWin" style="top:100px;left:150px;width:440px;height:300px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'dispWin')">
+    <span>🖥️</span><span class="wLabel">הגדרות תצוגה</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('dispWin','')">_</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('dispWin','')">✕</div>
+    </div>
+  </div>
+  <div class="wBody" style="padding:16px;">
+    <div class="setRow">
+      <label>גודל אייקונים:</label>
+      <select id="iconSizeSelect" onchange="changeIconSize(this.value)">
+        <option value="16">קטן (16×16)</option>
+        <option value="32" selected>בינוני (32×32)</option>
+        <option value="48">גדול (48×48)</option>
+      </select>
+    </div>
+    <div class="setRow">
+      <label>תמונת רקע:</label>
+      <button class="setBtn" onclick="chooseBg()">שנה תמונת רקע...</button>
+    </div>
+    <div class="setRow">
+      <label>שומר מסך:</label>
+      <select><option>ללא</option><option>מסך ריק</option><option>Windows XP</option></select>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+      <button class="setBtn" onclick="closeWin('dispWin','')">אישור</button>
+      <button class="setBtn" onclick="closeWin('dispWin','')">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MY LIFE ===== -->
+<div class="win" id="myLifeWin" style="top:80px;left:100px;width:620px;height:460px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'myLifeWin')">
+    <span>💫</span><span class="wLabel">My Life</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('myLifeWin','myLifeBtn')">_</div>
+      <div class="wBtn wBtnMax" onclick="maxWin('myLifeWin')">□</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('myLifeWin','myLifeBtn')">✕</div>
+    </div>
+  </div>
+  <div class="mBar" id="mlBar">
+    <span class="mItem" onclick="toggleM('mlFile',this)">קובץ
+      <div class="mDrop" id="mlFile">
+        <div class="mItem" onclick="closeDrops()">רענון</div>
+        <div class="mItem" onclick="mlPower();closeDrops()">הדלקה</div>
+        <div class="mItem" style="color:#aaa;cursor:default;">כיבוי</div>
+        <div class="mDropSep"></div>
+        <div class="mItem" onclick="closeWin('myLifeWin','myLifeBtn');closeDrops()">יציאה</div>
+      </div>
+    </span>
+    <span class="mItem" onclick="toggleM('mlNews',this)">חדשות
+      <div class="mDrop" id="mlNews">
+        <div class="mItem" onclick="mlShowNews('Y12');closeDrops()">Y12</div>
+        <div class="mItem" onclick="mlShowNews('המדינה');closeDrops()">המדינה</div>
+        <div class="mItem" onclick="mlShowNews('znet');closeDrops()">znet</div>
+        <div class="mItem" onclick="mlShowNews('ישראל איום');closeDrops()">ישראל איום</div>
+        <div class="mItem" onclick="mlShowNews('אידיוט היום');closeDrops()">אידיוט היום</div>
+        <div class="mItem" onclick="mlShowNews('מאקות');closeDrops()">מאקות</div>
+      </div>
+    </span>
+    <span class="mItem" onclick="toggleM('mlGames',this)">משחקים
+      <div class="mDrop" id="mlGames">
+        <div class="mItem" onclick="mlGame('snake');closeDrops()">Snake</div>
+        <div class="mItem" onclick="mlGame('xonix');closeDrops()">Xonix</div>
+        <div class="mItem" onclick="mlGame('mines');closeDrops()">שולה מוקשים</div>
+      </div>
+    </span>
+    <span class="mItem" onclick="mlNavaz();closeDrops()">נב"ז</span>
+    <span class="mItem" onclick="mlMeme();closeDrops()">מם</span>
+  </div>
+  <div id="myLifeMain">
+    <div style="color:#555;font-size:14px;">בחר מהתפריט למעלה</div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<div class="win" id="aboutWin" style="top:120px;left:180px;width:320px;height:210px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'aboutWin')">
+    <span>ℹ️</span><span class="wLabel">אודות Windows XP</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnClose" onclick="closeWin('aboutWin','')">✕</div>
+    </div>
+  </div>
+  <div class="wBody" style="padding:20px;text-align:center;">
+    <div style="font-size:36px;margin-bottom:10px;">🪟</div>
+    <div style="font-weight:bold;font-size:14px;">Microsoft Windows XP</div>
+    <div style="font-size:11px;color:#555;margin-top:6px;">Professional Edition, Version 5.1 (Build 2600)</div>
+    <div style="font-size:11px;color:#555;margin-top:4px;">Agent67</div>
+    <button onclick="closeWin('aboutWin','')"
+      style="margin-top:16px;padding:4px 20px;background:linear-gradient(180deg,#f0f0f0,#d0d0d0);border:1px solid #999;cursor:pointer;">
+      אישור
+    </button>
+  </div>
+</div>
+
+<!-- ===== CALCULATOR ===== -->
+<div class="win" id="calcWin" style="top:130px;left:160px;width:240px;height:310px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'calcWin')">
+    <span>🔢</span><span class="wLabel">מחשבון</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnMin" onclick="minWin('calcWin','calcBtn')">_</div>
+      <div class="wBtn wBtnClose" onclick="closeWin('calcWin','calcBtn')">✕</div>
+    </div>
+  </div>
+  <div class="wBody" style="padding:10px;background:#ece9d8;">
+    <div id="calcDisp">0</div>
+    <div id="calcGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;"></div>
+  </div>
+</div>
+
+<!-- ===== FILE PICKER ===== -->
+<div class="win" id="fpWin" style="top:80px;left:120px;width:600px;height:400px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'fpWin')">
+    <span>📂</span><span class="wLabel" id="fpTitle">בחר קובץ</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnClose" onclick="closeFP()">✕</div>
+    </div>
+  </div>
+  <div style="background:#f0f0f0;border-bottom:1px solid #ccc;padding:4px 6px;display:flex;align-items:center;gap:4px;flex-shrink:0;">
+    <button class="navBtn" onclick="fpUp()">▲ למעלה</button>
+    <input id="fpAddr" readonly
+      style="flex:1;border:1px solid #7f9db9;padding:2px 6px;font-size:12px;background:white;"/>
+  </div>
+  <div style="display:flex;flex:1;overflow:hidden;">
+    <div style="width:150px;border-left:1px solid #ccc;padding:6px;overflow-y:auto;font-size:11px;flex-shrink:0;">
+      <div class="tItem" onclick="fpNav('C:\\')">💾 C:</div>
+      <div class="tItem" style="padding-right:12px" onclick="fpNav('C:\\Desktop')">🖥 Desktop</div>
+      <div class="tItem" style="padding-right:12px" onclick="fpNav('C:\\Downloads')">📥 Downloads</div>
+      <div class="tItem" style="padding-right:12px" onclick="fpNav('C:\\Docs')">📁 Docs</div>
+      <div class="tItem" style="padding-right:12px" onclick="fpNav('C:\\Images')">🖼 Images</div>
+    </div>
+    <div id="fpFiles"
+      style="flex:1;padding:8px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;"></div>
+  </div>
+  <div style="background:#f0f0f0;border-top:1px solid #ccc;padding:6px 8px;display:flex;align-items:center;gap:8px;flex-shrink:0;">
+    <span style="font-size:12px;">קובץ:</span>
+    <input id="fpSelName" readonly style="flex:1;border:1px solid #999;padding:3px 6px;font-size:12px;"/>
+    <button onclick="fpConfirm()"
+      style="padding:4px 14px;border:1px solid #999;cursor:pointer;font-size:12px;background:linear-gradient(180deg,#f0f0f0,#d0d0d0);">
+      פתח
+    </button>
+    <button onclick="closeFP()"
+      style="padding:4px 14px;border:1px solid #999;cursor:pointer;font-size:12px;background:linear-gradient(180deg,#f0f0f0,#d0d0d0);">
+      ביטול
+    </button>
+  </div>
+</div>
+
+<!-- ===== PROPERTIES ===== -->
+<div class="win" id="propsWin" style="top:140px;left:220px;width:300px;height:260px;display:none;">
+  <div class="wTitle" onmousedown="drag(event,'propsWin')">
+    <span>📋</span><span class="wLabel" id="propsTitle">מאפיינים</span>
+    <div class="wCtrls">
+      <div class="wBtn wBtnClose" onclick="closeWin('propsWin','')">✕</div>
+    </div>
+  </div>
+  <div class="wBody" id="propsBody"
+    style="padding:14px;font-size:12px;line-height:1.8;overflow-y:auto;"></div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div id="modalOv" class="modalOv" style="display:none;" onclick="closeModal()"></div>
+<div id="modal" class="modal" style="display:none;"></div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="app1.js"></script>
+<script src="app2.js"></script>
+<script src="app3.js"></script>
+</body>
+</html>
