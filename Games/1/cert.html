@@ -1,0 +1,216 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style.css">
+		<title>משחק ההכשרה הגדול</title>
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Playpen+Sans+Hebrew:wght@100..800&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+	<body>
+		<audio id="myAudio" src="https://cdn.pixabay.com/audio/2023/04/04/audio_2c7ed9a3e1.mp3" autoplay loop controls>
+			Your browser does not support the audio element.
+		</audio>
+
+		<div id="warning_mobile">המשחק עובד רק במצב אנכי</div>
+		<span id="game">			
+			<div id="start" class="page">
+				<div id="cookies"><div id="cookiesIn"><div id="cookiesTitle">עוגיות.... יאמי🍪</div>האתר לא באמת צריך עוגיות<br>אבל הוא זקוק ללחיצה בשביל לנגן מוזיקה<br>בכל מקום אפשר ללחוץ<br>אם כי חשוב לדעת גם לשחרר</div></div>
+				<div id="coffeeRecipe" onclick="showRecipe();">איך מכינים קפה?<br>1. שמים קפה<br>2. שמים חלב<br>3. שמים 3 סוכר<br>4. מערבבים<br>סדר ההשמה לא חשוב</div>
+				<div class="startTitle">משחק ההכשרה הגדול<br><div class="version">גרסת עדי</div></div>
+				<button id="startBtn" onclick="start();">התחלה!</button>
+			</div>
+		
+			<div id="page1" class="page">
+				<div class="title">רק בוקר... תנו לישון</div>
+				<div id="sun" class="sun" onclick="page1()">
+				</div>
+				<div id="bottomPage1" class="bottom">תודה</div>
+			</div>
+			
+			<div id="page2" class="page">
+				<div id="container2">
+					<div class="title">מי עובד בכלל בשעות שצריך אור?</div>
+					<div id="switch">
+						<div id="box">
+							<span id="switch_parts">
+								<div id="switch_btn" onclick="page2()"></div>
+								<div id="switch_btn2"></div>
+							</span>
+						</div>
+					</div>
+					<div id="bottomPage2" class="bottom">יותר טוב</div>
+				</div>
+			</div>
+			
+			<div id="page3" class="page">
+				<div class="title">אין לי כוח לעבוד</div>
+				<div id="emgBox">
+					<div id="emgBoxTitle">חירום</div>
+					<div id="keyGlass" ondblclick="breakGlass()"></div>
+					<div id="key" onclick="clickKey();">
+						<span id="circ"></span><span id="line"></span><span id="saw"></span>
+					</div>
+				</div>
+				<div id="NABAZ">נב"ז</div>
+				<div id="door" onclick="clickDoor();">
+					<div id="handle"></div>
+					<div id="pipHole">
+						<div id="topPip"></div>
+						<div id="botPip"></div>
+					</div>
+					<div id="boom">    Boom<br>Boom</div>
+				</div>
+				<div id="bottomPage3" class="bottom">איך עברה כבר שעה?</div>
+			</div>
+			
+			<div id="page4" class="page">
+				<div class="title">אין על ההכשרה</div>
+				<div id="module">
+					<div id="modText">
+						<div id="modTitle">מודול שלא נזכור</div>
+						<hr>
+						ערך
+						<div id="textCounter">(מספר תווים: 276)</div>
+						<a href="#" class="wikiBtn" onclick="editWiki();">עריכה</a>
+						<span id="dividorBtns"> </span>
+						<a href="#" class="wikiBtn chosenBtn" onclick="readWiki();">קריאה</a>
+						<hr>
+						<span id="editableText">
+							מטרת המודול: לבלבל את המוכשר
+							<br>
+							<ol>
+								<li>יש לקרוא את העמודים הזוגיים בפרקים האי זוגיים ואת העמודים האי זוגיים בפרקים הזוגיים עבור פרקים 1-10 <a href="#" onclick="return false;" title="קישור שבור. כרגיל">בספר המצורף</a>.</li>
+								<li>יש ליצור מכונה וירטואלית של mac.</li>
+								<li>יש להריץ את קובץ ה-exe בתיקייה המצורפת.</li>
+								<li>האם זה עבד? אם לא, מה צריך לשנות במערכת ההפעלה כך שזה יעבוד?</li>
+							</ol>
+						</span>
+					</div>
+				</div>
+				<div id="bottomPage4" class="bottom">הרבה יותר ברור ככה</div>
+			</div>
+			
+			<div id="page5" class="page">
+				<div class="title">מזל שיש גם פעילויות העשרה</div>
+				<div id="phone">
+					<div id="camera"></div>
+					<div id="whatsapp">
+						<div id="whatsappTop">
+							<div id="vertdots" onclick="showmenu();">⋮</div>
+							<div id="menu">
+								<div class="menuItem">קבוצה חדשה</div>
+								<div class="menuItem">הצגת איש קשר</div>
+								<div class="menuItem">חיפוש</div>
+								<div class="menuItem" onclick="page5();">חסימה</div>
+								<div class="menuItem">השתקת התראות</div>
+								<div class="menuItem">דיווח</div>
+							</div>
+							<div id="profilePic"></div>
+							<span id="whatsappName">ההוא שאינו מהביס</span>
+						</div>
+						<div id="whatsappChat">
+							<div class="wtspmsg">היי, מה קורה?<br>מה עם החידה שלי?<div class='time'>10:53</div></div>
+							<div class="wtspmsg">פתרת כבר?<div class='time'>10:54</div></div>
+							<div class="wtspmsg">נו?<div class='time'>10:54</div></div>
+							<div class="wtspmsg">נוווו<div class='time'>10:55</div></div>
+							<div class="wtspmsg">???<div class='time'>10:57</div></div>
+						</div>
+						<input id="wtspanswer" type="text" placeholder="הודעה">
+						<div id="wtspsend" onclick="sendMsg();"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></div>
+					</div>
+				</div>
+				<div id="bottomPage5" class="bottom">כבר פתרת אבל?</div>
+			</div>
+			
+			<div id="page6" class="page">
+				<div class="title">צריך "מזון" לשמירה</div>
+				<div id="rooms">
+					<div id="larrow" class="arrow" onclick="moveRoom(-1);"><</div>
+					<div id="rarrow" class="arrow" onclick="moveRoom(1);">></div>
+					
+					<div id="storage"></div>
+					
+					<div id="room1" class="room">
+						<div class="cupboard" id="cupboard">
+							<div class="cupboardBack"></div>
+							<div class="shelf upshelf"><div id="coffee" onclick="takeItem('coffee');">קפה</div></div>
+							<div class="shelf downshelf"></div>
+							<div id="leftCupboard1" class="cupboardDoor leftCupboard" onclick="openCupboard('leftCupboard1', '-80deg');"><div class="handleL handle"></div></div><div id="rightCupboard1" class="cupboardDoor rightCupboard" onclick="openCupboard('rightCupboard1', '80deg');"><div class="handleR handle"></div></div>
+						</div>
+						<div class="cupboard" id="cupboard2">
+							<div class="cupboardBack"></div>
+							<div class="shelf upshelf"></div>
+							<div class="shelf downshelf"><div id="sugar" onclick="takeItem('sugar');">סוכר</div></div>
+							<div id="leftCupboard2" class="cupboardDoor leftCupboard" onclick="openCupboard('leftCupboard2', '-80deg');"><div class="handleL handle"></div></div><div id="rightCupboard2" class="cupboardDoor rightCupboard" onclick="openCupboard('rightCupboard2', '80deg');"><div class="handleR handle"></div></div>
+						</div>
+					</div>
+					
+					<div id="room2" class="room">					
+						<div id="table">
+							<div id="spoon" onclick="takeItem('spoon');">
+								<div id="spoonHandle"></div>
+								<div id="spoonSurface"></div>
+							</div>
+							<div id="tablePlate" onclick="putCup();"></div>
+							<div id="tableLeg"></div>
+							<div id="tableBase"></div>
+						</div>
+						<div id="sink">
+							<div id="sinkBack" onclick="clearCup(true);">
+								<div id="sinkLeft"></div>
+								<div id="sinkFront"></div>
+								<div id="sinkRight"></div>
+								<div id="plumbing"></div>
+							</div>
+						</div>
+					</div>
+					
+					<div id="room3" class="room">
+						<div id="refrigerator">
+							<div class="freezershelf" style="--place: 2"></div>
+							<div class="freezershelf" style="--place: 1">
+								<div id="cup" onclick="takeItem('cup');"></div>
+							</div>
+							<div id="freezerDoor" onclick="openCupboard('freezerDoor', '80deg');">
+							</div>
+							
+							<div class="refrishelf" style="--place: 5"></div>
+							<div class="refrishelf" style="--place: 4">
+								<div id="yogurt">אשל</div>
+							</div>
+							<div class="refrishelf" style="--place: 3">
+								<div id="cheese">גבנצ</div>
+							</div>
+							<div class="refrishelf" style="--place: 1">
+								<div id="milk" onclick="takeItem('milk');">חלב</div>
+								<div id="cola">קולה</div>
+							</div>
+							<div id="refriDoor"  onclick="openCupboard('refriDoor', '80deg');">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="bottomPage6" class="bottom">אין על סוכר</div>
+			</div>
+			
+			<div id="end" class="page">
+				<canvas id="canvas-wrapping"></canvas>
+				<div class="title">הסוף!<br>אין לי כל כך מה לכתוב כאן '~'<br>מקווה שנהנית מי שלא שיחק בזה</div>
+				<div id="bottomPage7" class="bottom">אין סיכוי שאני כותב עוד משחק כזה</div>
+			</div>
+		</span>
+		
+		
+		<script src="code.js"></script>
+		
+		<!-- שלב 6  - הכנת קפה, צריך כוס, חלב מהמקרר, כפית, קפה, סוכר -->
+		<!--
+			יכיל 3 חדרים:
+			1. ארון עם קפה וסוכר
+			2. שולחן וכיור וכפית תלויה על הקיר
+			3. מקרר שמעליו כוס ובפנים חלב
+		-->
+</html>

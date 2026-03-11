@@ -1,0 +1,1322 @@
+@media screen and (orientation: landscape) and (max-width: 1000px) {
+	#warning_mobile {
+		display: block !important;
+		font-size: 5em;
+		text-align: center;
+	}
+	#game {
+		display: none !important;
+	}
+}
+
+#warning_mobile {
+	display: none;
+}
+
+#game {
+	display: block;
+}
+
+body {
+	overflow: hidden;
+	touch-action: manipulation;
+}
+
+.page {
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.page:first-child {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+}
+
+.page:not(:first-child) {
+	position: absolute;
+	top: -100%;
+	left: 0%;
+}
+
+/* start for debug */
+/*.page {
+	display: none;
+}
+
+.page:nth-child(7) {
+	display: flex;
+	top: 0%;
+}*/
+/* end for debug */
+
+.title {
+	position: absolute;
+	top: 5vh;
+	width: 100%;
+	text-align: center;
+	font-size: 5em;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+}
+
+.bottom {
+	position: absolute;
+	visibility: hidden;
+	top: 80%;
+	width: 100%;
+	text-align: center;
+	font-size: 5em;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+}
+
+.animateBottom {
+	animation-name: showBottomTitle;
+	animation-iteration-count: 1;
+	animation-duration: 1s;
+	animation-delay: 5s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+.animatePageIn{
+	position: absolute;
+	animation-name: pagein;
+	animation-iteration-count: 1;
+	animation-duration: 4s;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: forwards;
+}
+
+.animatePageOut{
+	position: absolute;
+	animation-name: pageout;
+	animation-iteration-count: 1;
+	animation-duration: 4s;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: forwards;
+}
+
+@keyframes pagein {
+	0% {
+		left: 0%;
+		top: -100%;
+	}
+	
+	100% {
+		left: 0%;
+		top: 0%;
+	}
+}
+
+@keyframes pageout {
+	0% {
+		left: 0%;
+		top: 0%;
+	}
+	
+	100% {
+		left: 0%;
+		top: 100%;
+	}
+}
+
+@keyframes showBottomTitle {
+	from {
+		visibility: hidden;
+	}
+	
+	to {
+		visibility: visible;
+	}
+}
+
+/* start */
+#myAudio {
+	display: none;
+}
+
+#cookies {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	background-color: #21212199;
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+}
+
+#cookiesIn {
+	text-align: right;
+	width: fit-content;
+	padding: 20px;
+	background-color: cornflowerblue;
+	margin: auto;
+	color: white;
+	direction: rtl;
+	font-size: 3em;
+	font-family: "Playpen Sans Hebrew", cursive;
+}
+
+#cookiesTitle {
+	font-size: 2em;
+}
+
+#start {
+	background-color: antiquewhite;
+}
+
+.startTitle {
+	position: absolute;
+	top: 5vh;
+	width: 100%;
+	text-align: center;
+	font-size: 7em;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	font-weight: bold;
+}
+
+.version {
+	width: 100%;
+	text-align: center;
+	font-size: 0.75em;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	font-weight: normal;
+}
+
+#coffeeRecipe {
+	width: 5vw;
+	height: 20vh;
+	position: absolute;
+	background-color: mediumpurple;
+	transform: rotateZ(-13deg);
+	left: -5%;
+	cursor: pointer;
+	z-index: 5;
+	font-size: 0.5em;
+    direction: rtl;
+    font-family: "Playpen Sans Hebrew", cursive;
+    color: white;
+}
+
+#startBtn {
+	background-color: white;
+	color: black;
+	padding: 16px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 5em;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	border: 2px solid #04AA6D;
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	transform: translate(-50%, -70%);
+	direction: rtl;
+}
+
+#startBtn:hover {
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* page 1 */
+
+.sun {
+	width: 20%;
+	aspect-ratio: 1 / 1; 
+	background-color: #f1c40f;
+	border-radius: 50%;
+	margin: auto;
+	box-shadow: 0 0 0 10px #f39c12;
+	text-align: center;
+}
+
+.sun::before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: repeating-conic-gradient(
+		#ffeb3b 0deg,
+		#ffeb3b 20deg, 
+		transparent 20deg, 
+		transparent 40deg
+	);
+	z-index: -1;
+}
+
+.moon {
+	width: 20%;
+	aspect-ratio: 1 / 1; 
+	background-color: #f1f2f6;
+	border-radius: 50%;
+	margin: auto;
+	box-shadow: 0 0 0 10px #a4b0be;
+	text-align: center;
+}
+
+#bottomPage1 {
+	color: white;
+}
+
+/* page 2 */
+#container2 {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+#switch {
+	margin: auto;
+}
+
+#box {
+	width: 5em;
+	aspect-ratio: 1 / 2;
+	background-color: #cccccc;
+	display: flex;
+}
+
+#switch_parts {
+	margin: auto;
+}
+
+#switch_btn, #switch_btn2 {
+	width: 2em;
+	height: 2em;
+	border: 1px solid black;
+}
+
+#switch_btn {
+	background-color: gray;
+}
+
+#switch_btn2 {
+	background-color: white;
+}
+
+.night {
+	animation-name: nightmode;
+	animation-iteration-count: 1;
+	animation-duration: 4s;
+	animation-timing-function: ease-in-out;
+	animation-fill-mode: forwards;
+}
+
+@keyframes nightmode {
+	0% {
+		color: black;
+		background-color: white;
+	}
+	
+	100% {
+		color: green;
+		background-color: #1a1a1a;
+	}
+}
+
+
+/* page 3 */
+#page3 {
+	background-color: #1a1a1a;
+	color: white;
+}
+
+#emgBox {
+	position: absolute;
+    left: 30%;
+	top: 50%;
+	transform: translate(-30%, -50%);
+	background-color: dimgray;
+	width: 5em;
+	aspect-ratio: 1 / 1;
+}
+
+#emgBoxTitle {
+    text-align: center;
+    font-size: 1.5em;
+    direction: rtl;
+    font-family: "Playpen Sans Hebrew", cursive;
+}
+
+#keyGlass {
+	width: 100%;
+	height: 2em;
+	margin: 0 auto;
+	background-color: #7ed6df;
+	opacity: 0.5;
+	position: absolute;
+}
+
+#key {
+	text-align: center;
+	padding: 5%;
+}
+
+#circ {
+	background-color: transparent;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: 3px solid gold;
+    display: inline-block;
+}
+
+#line {
+	background-color: gold;
+    width: 2em;
+    height: 0.3em;
+    display: inline-block;
+    vertical-align: super;
+}
+
+#saw {
+	background-color: gold;
+    width: 0.3em;
+    height: 0.7em;
+    display: inline-block;
+}
+
+#NABAZ {
+	position: absolute;
+	top: 50%;
+	left: 49%;
+	transform: translate(-50%, -50%) rotate(-60deg);
+	font-size: 5em;
+    direction: rtl;
+    font-family: "Playpen Sans Hebrew", cursive;
+}
+
+#door {
+	width: 12em;
+    aspect-ratio: 1 / 2;
+	background-color: saddlebrown;
+	margin: auto;
+	display: grid;
+	transform-origin: right;
+	z-index: 1;
+}
+
+#boom {
+	position: absolute;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, 1em);
+	font-size: 2em;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	white-space: pre-wrap;
+}
+
+#handle {
+	border-radius: 50%;
+    background-color: black;
+    width: 1.5em;
+    aspect-ratio: 1 / 1;
+    margin: auto 1vw;
+    top: 50%;
+    position: relative;
+}
+
+#pipHole {
+	background-color: black;
+    width: 1.5em;
+    aspect-ratio: 1 / 2;
+    margin: 0 1em;
+    position: relative;
+    top: 3em;
+}
+
+@media screen and (max-width: 1000px) {
+	#emgBox {
+		width: 16vw;
+		left: 15%;
+	}
+	
+	#emgBoxTitle {
+		font-size: 5.5vw;
+	}
+	
+	#keyGlass {
+		height: 5vw;
+	}
+	
+	#circ {
+		width: 2vw;
+		height: 2vw;
+	}
+	
+	#line {
+		width: 3vw;
+		height: 0.8vw;
+	}
+	
+	#saw {
+		width: 0.8vw;
+		height: 1.5vw;
+	}
+	
+	#NABAZ {
+		font-size: 14vw;
+		left: 46%;
+	}
+	
+	#door {
+		width: 30vw;
+	}
+	
+	#handle {
+		width: 4.5vw;
+	}
+	
+	#pipHole {
+		width: 3.5vw;
+	}
+	
+	#boom {
+		font-size: 6vw;
+	}
+}
+
+#topPip {
+	background-color: gray;
+    width: 1vw;
+    aspect-ratio: 1 / 1;
+	border-radius: 30%;
+	margin: 0.5vw auto 0 auto;
+}
+
+#botPip {
+	background-color: gray;
+    width: 0.6vw;
+    aspect-ratio: 1 / 2;
+	margin: 0 auto;
+}
+
+/* page 4 */
+#page4 {
+	background-color: #1a1a1a;
+	color: white;
+}
+
+#module {
+	width: 50vw;
+	aspect-ratio: 2 / 1;
+	background-color: #f8f9fa;
+	margin: auto;
+}
+
+hr {
+	margin-top: 0;
+}
+
+.wikiBtn{
+	float: left;
+	color: black;
+	text-decoration: auto;
+}
+
+.chosenBtn {
+	text-decoration: underline;
+}
+
+#dividorBtns {
+	white-space: break-spaces;
+	float: left;
+}
+
+#textCounter {
+	display: inline-block;
+}
+
+#editableText {
+	display: flow;
+}
+
+#modText {
+	background-color: white;
+	direction: rtl;
+	margin: 20 30;
+	font-size: 2em;
+	padding: 10px;
+	height: 100%;
+	font-family: sans-serif;
+	color: black;
+}
+
+#modTitle {
+	font-size: 2em;
+}
+
+@media screen and (max-width: 1000px) {
+	#module {
+		width: 86vw;
+	}
+	
+	#modText {
+		overflow-y: scroll;
+	}
+}
+
+/* page 5 */
+
+#page5 {
+	background-color: #1a1a1a;
+	color: white;
+}
+
+#phone {
+	width: 14vw;
+	aspect-ratio: 1 / 1.8;
+	margin: auto;
+	background-color: gray;
+	border-radius: 10%;
+	display: flex;
+}
+
+#camera {
+	background-color: black;
+    border-radius: 50%;
+    width: 1vw;
+    height: 1vw;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-top: 5px;
+}
+
+#whatsapp {
+	background-color: darkseagreen;
+    width: 90%;
+    height: 89%;
+    margin: auto;
+	position: relative;
+}
+
+#whatsappTop {
+	background-color: white;
+	width: 100%;
+	height: 10%;
+	font-size: 1em;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	color: black;
+	display: block;
+}
+
+#whatsappTop:after{
+    content: '';
+    display: inline-block;
+    width: 0px;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#profilePic {
+	border: 2px solid black;
+	border-radius: 50%;
+	background-color: white;
+	width: 1vw;
+	height: 1vw;
+	margin: auto;
+	display: inline-block;
+    vertical-align: middle;
+}
+
+#whatsappName {
+	display: inline-block;
+}
+
+#vertdots {
+	display: inline-block;
+	position: relative;
+    right: 100%;
+    transform: translate(300%, 0);
+}
+
+#vertdots:hover {
+	cursor: pointer;
+}
+
+#menu {
+	position: absolute;
+	display: none;
+	background-color: white;
+    left: 0%;
+	width: max-content;
+    padding: 0 10;
+    direction: rtl;
+    text-align: right;
+	z-index: 10;
+}
+
+.menuItem:not(:last-child) {
+	border-bottom: 1px solid black;
+}
+
+.menuItem:hover {
+	cursor: pointer;
+}
+
+#whatsappChat {
+	height: 80%;
+	overflow-y: scroll;
+	scrollbar-width: none;
+}
+
+.wtspmsg {
+	background-color: white;
+    color: black;
+    direction: rtl;
+    width: 70%;
+    float: right;
+    font-family: 'Playpen Sans Hebrew';
+    margin: 5px;
+    padding-right: 5px;
+	border-radius: 5%;
+}
+
+.wtspmsgAns {
+	background-color: lightgreen;
+    color: black;
+    direction: rtl;
+    width: 70%;
+    float: left;
+    font-family: 'Playpen Sans Hebrew';
+    margin: 5px;
+    padding-right: 5px;
+	border-radius: 5%;
+}
+
+.time {
+	font-size: 0.5em;
+	display: flex;
+	justify-content: left;
+	margin: 5px;
+}
+
+#wtspanswer {
+	background-color: white;
+	border-radius: 20%;
+	border: none;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 5px 5px calc(5% - 5px) 5px;
+	width: 80%;
+	padding: 5px;
+	direction: rtl;
+	font-size: 2vh;
+}
+
+#wtspanswer:focus{
+    outline: none;
+}
+
+#wtspsend {
+	width: calc(20% - 20px);
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+	background-color: green;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin: 5px;
+	display: flex;
+	font-size: 2vh;
+}
+
+.fa {
+	margin: auto;
+}
+
+@media screen and (max-width: 1000px) {
+	#phone {
+		width: 48vw;
+	}
+	
+	#camera {
+		width: 3vw;
+		height: 3vw;
+	}
+	
+	#whatsappTop {
+		font-size: 4vw;
+	}
+	
+	.wtspmsg, .wtspmsgAns, .wtspanswer {
+		font-size: 3vw;
+	}
+}
+
+/* page 6 */
+
+#page6 {
+	background-color: #1a1a1a;
+	color: white;
+}
+
+#rooms {
+	width: 40vw;
+    height: 30vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.room {
+	background-color: lightgoldenrodyellow;
+	width: 40vw;
+    height: 30vw;
+    position: absolute;
+    top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.room:after {
+	content: ' ';
+    background-color: saddlebrown;
+    width: 100%;
+    height: 25%;
+    display: block;
+    position: absolute;
+    bottom: 0;
+}
+
+.arrow {
+	font-size: 2vw;
+	color: black;
+	margin: auto;
+	display: flex;
+    align-items: center;
+	height: 100%;
+	background-color: #808080aa;
+	user-select: none;
+	position: absolute;
+	z-index: 5;
+}
+
+#larrow {
+	left: 0;
+}
+
+#rarrow {
+	right: 0;
+}
+
+#room1 {
+	display: none;
+}
+
+#room2 {
+	display: block;
+}
+
+#room3{
+	display: none;
+}
+
+#storage {
+	position: absolute;
+	top: 98%;
+	left: 5%;
+	width: 90%;
+	height: 3vw;
+    transform: translate(0, -100%);
+    z-index: 100;
+}
+
+.itemTaken {
+	border: 2px solid black;
+	background-color: crimson;
+	width: 3vw;
+    height: 6vh;
+    display: inline-flex;
+	margin: 0 10px;
+	position: absolute;
+}
+
+/* room1 */
+
+.cupboard {
+	position: absolute;
+    top: 10%;
+	width: fit-content;
+	display: inline-block;
+}
+
+.cupboardBack {
+	background-color: rosybrown;
+	width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#cupboard {
+	left: 10%;
+}
+
+#cupboard2 {
+	left: 60%;
+}
+
+.shelf {
+	width: 100%;
+	height: 0.5vh;
+	background-color: black;
+	position: absolute;
+	z-index: 1;
+}
+
+.upshelf {
+    top: 50%;
+	transform: translate(0, -50%);
+}
+
+#coffee {
+	width: 2vw;
+	height: 5vh;
+	background-color: #8b4513aa;
+	position: absolute;
+    top: -5vh;
+    left: 70%;
+	font-size: 0.8vw;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	text-align: center;
+	z-index: 2;
+	margin: auto;
+	user-select: none;
+}
+
+.downshelf {
+    top: 100%;
+	transform: translate(0, -100%);
+}
+
+#sugar {
+	width: 2vw;
+	height: 5vh;
+	background-color: #f5f5f5aa;
+	position: absolute;
+    top: -5vh;
+    left: 30%;
+	font-size: 0.8vw;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	text-align: center;
+	margin: auto;
+	user-select: none;
+}
+
+.cupboardDoor {
+	background-color: saddlebrown;
+	width: 6vw;
+    height: 20vh;
+	display: inline-block;
+	z-index: 5;
+    position: relative;
+}
+
+.leftCupboard {
+	transform-origin: left;
+}
+
+.rightCupboard {
+	transform-origin: right;
+}
+
+.handle {
+	background-color: black;
+	width: 1vw;
+	height: 1vw;
+	position: relative;
+	border-radius: 50%;
+}
+
+.handleL {
+	top: 50%;
+    left: 100%;
+    transform: translate(-110%, -50%);
+}
+
+.handleR {
+	top: 50%;
+    transform: translate(10%, -50%);
+}
+
+/* room 2 */
+#spoon {
+	position: absolute;
+    top: 0%;
+    left: 70%;
+    display: grid;
+    justify-items: center;
+    transform: rotateZ(72deg);
+}
+
+#spoonHandle {
+	width: 0.25vw;
+    height: 2vw;
+	background-color: silver;
+}
+
+#spoonSurface {
+	width: 0.55vw;
+    height: 1vw;
+	background-color: silver;
+	border-radius: 58%;
+	position: absolute;
+    top: 75%;
+}
+
+#sinkBack {
+	width: 9vw;
+    height: 5vw;
+    background-color: darkgray;
+    position: absolute;
+    top: 44%;
+    left: 20%;
+    display: grid;
+    justify-items: center;
+}
+
+#sinkFront {
+	width: 11.4vw;
+    height: 4vw;
+    background-color: gray;
+    position: absolute;
+    top: 38%;
+    z-index: 5;
+}
+
+#sinkRight {
+	background-color: #909090;
+    height: 3vw;
+    width: 1.2vw;
+    position: relative;
+    left: 56%;
+    top: 19%;
+    transform: skew(0deg, 57deg);
+}
+
+#sinkLeft {
+	background-color: #909090;
+    height: 3vw;
+    width: 1.2vw;
+    position: absolute;
+    right: 100%;
+    top: 19%;
+    transform: skew(0deg, -57deg);
+}
+
+#plumbing {
+	width: 2vw;
+	height: 9vw;
+	background-color: gray;
+	position: absolute;
+    top: 100%;
+}
+
+#table {
+	position: absolute;
+    top: 45%;
+    left: 58%;
+}
+
+#tablePlate {
+	background-color: brown;
+	width: 10vw;
+	height: 2vw;
+	border-radius: 50%;
+}
+
+#tableLeg {
+	background-color: brown;
+	width: 1vw;
+	height: 6.6vw;
+	position: relative;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+#tableBase {
+	background-color: brown;
+	width: 3vw;
+	height: 0.5vw;
+	position: relative;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.layer {
+	width: 100%;
+	height: 15%;
+}
+
+/* room 3 */
+#refrigerator {
+	width: 10vw;
+	height: 20vw;
+	background-color: #e0e0e0;
+	position: absolute;
+	left: 50%;
+	top: 2.5vw;
+	transform: translate(-50%, 0);
+	z-index: 5;
+}
+
+#freezerDoor {
+	width: 90%;
+	height: 6vw;
+	background-color: #b6b6b6;
+	margin: 15px auto;
+	transform-origin: right;
+	position: relative;
+	z-index: 2;
+}
+
+#refriDoor {
+	width: 90%;
+	height: 12vw;
+	background-color: #b6b6b6;
+	margin: 15px auto;
+	transform-origin: right;
+	position: relative;
+	z-index: 2;
+}
+
+.freezershelf {
+	width: 80%;
+	height: 0.5vh;
+	background-color: black;
+	position: absolute;
+	z-index: 1;
+	left: 50%;
+	top: calc(14% * var(--place));
+    transform: translate(-50%, 0);
+}
+
+#cup {
+	width: 1vw;
+	height: 1.5vw;
+	background-color: #9b9be866;
+	position: absolute;
+    bottom: 0.5vh;
+	left: 14%;
+}
+
+.refrishelf {
+	width: 80%;
+	height: 0.5vh;
+	background-color: black;
+	position: absolute;
+	z-index: 1;
+	left: 50%;
+	bottom: calc(10% * var(--place));
+    transform: translate(-50%, 0);
+}
+
+#yogurt {
+	width: 1vw;
+	height: 1vw;
+	background-color: white;
+	position: absolute;
+    bottom: 0.5vh;
+	left: 14%;
+	text-align: center;
+	user-select: none;
+	font-size: 0.5vw;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	color: blue;
+}
+
+#cheese {
+	width: 1vw;
+	height: 1vw;
+	background-color: yellow;
+	position: absolute;
+    bottom: 0.5vh;
+	left: 35%;
+	text-align: center;
+	user-select: none;
+	font-size: 0.5vw;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	color: black;
+}
+
+#milk {
+	width: 1.5vw;
+	height: 2.5vw;
+	background-color: white;
+	position: absolute;
+    bottom: 0.5vh;
+	left: 12%;
+	text-align: center;
+	user-select: none;
+	font-size: 0.8vw;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	color: blue;
+}
+
+#cola {
+	width: 1.5vw;
+	height: 2.5vw;
+	background-color: #0f0f0f;
+	position: absolute;
+    bottom: 0.5vh;
+	left: 52%;
+	text-align: center;
+	user-select: none;
+	font-size: 0.8vw;
+	direction: rtl;
+	font-family: "Playpen Sans Hebrew", cursive;
+	color: red;
+}
+
+@media screen and (max-width: 1000px) {
+	#rooms {
+		width: 72vw;
+		height: 52vw;
+	}
+	
+	.room {
+		width: 72vw;
+		height: 52vw;
+	}
+	
+	#sinkBack {
+		top: 50%;
+	}
+	
+	#table {
+		top: 52%;
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	.arrow {
+		font-size: 5vw;
+	}
+	
+	#storage {
+		top: 89%;
+	}
+	
+	.itemTaken {
+		width: 7vw;
+		height: 4vh;
+	}
+	
+	#refrigerator {
+		width: 21vw;
+		height: 32vw;
+		top: 7vw;
+	}
+	
+	#freezerDoor {
+		height: 9vw;
+	}
+	
+	#refriDoor {
+		height: 19vw;
+	}
+	
+	#cup {
+		width: 2vw;
+		height: 2.5vw;	
+	}
+	
+	#yogurt {
+		width: 2vw;
+		height: 2vw;
+		font-size: 1vw;
+	}
+	
+	#cheese {
+		width: 2vw;
+		height: 2vw;
+		font-size: 1vw;
+	}
+	
+	#cola {
+		width: 2.5vw;
+		height: 3.5vw;
+		font-size: 1.2vw;
+	}
+	
+	#milk {
+		width: 2.5vw;
+		height: 3.5vw;
+		font-size: 1.5vw;
+	}
+	
+	#spoonHandle {
+		width: 0.5vw;
+		height: 4vw;
+	}
+	
+	#spoonSurface {
+		width: 1.55vw;
+		height: 2vw;
+	}
+	
+	#tablePlate {
+		width: 15vw;
+		height: 4vw;
+	}
+	
+	#tableLeg {
+		width: 2vw;
+		height: 6.6vw;
+	}
+	
+	#tableBase {
+		width: 5vw;
+		height: 1.5vw;
+	}
+	
+	.cupboardDoor {
+		width: 8vw;
+		height: 9vh;
+	}
+	
+	#coffee {
+		height: 2vh;
+		top: -2vh;
+		left: 56%;
+		font-size: 1.5vw;
+		width: 3vw;
+	}
+	
+	#sugar {
+		top: -2vh;
+		width: 3vw;
+		height: 2vh;
+		font-size: 1.2vw;
+	}
+}
+
+/* end */
+#end {
+	background-color: antiquewhite;
+}
