@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מי הכותב? - דניאל או נעם חורב</title>
+    <title>מי הכותב? - נעם חורב או דניאל</title>
     <style>
         :root {
             --noam-color: #3498db;
@@ -29,7 +29,7 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             max-width: 700px;
             width: 90%;
-            min-height: 400px;
+            min-height: 450px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -45,11 +45,11 @@
         h1#song-title {
             color: #2c3e50;
             margin: 10px 0;
-            font-size: 2rem;
+            font-size: 2.2rem;
         }
 
         .song-lyrics {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             line-height: 1.8;
             margin: 25px 0;
             white-space: pre-wrap;
@@ -58,7 +58,7 @@
             padding: 30px;
             border-radius: 10px;
             border-right: 6px solid var(--noam-color);
-            max-height: 300px;
+            max-height: 350px;
             overflow-y: auto;
         }
 
@@ -81,15 +81,8 @@
             max-width: 200px;
         }
 
-        .btn-noam {
-            background-color: var(--noam-color);
-            color: white;
-        }
-
-        .btn-daniel {
-            background-color: var(--daniel-color);
-            color: white;
-        }
+        .btn-noam { background-color: var(--noam-color); color: white; }
+        .btn-daniel { background-color: var(--daniel-color); color: white; }
 
         button:hover {
             transform: translateY(-3px);
@@ -97,18 +90,12 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
-        #result-screen {
-            display: none;
-        }
+        #result-screen { display: none; }
 
         .score-display {
-            font-size: 4rem;
+            font-size: 4.5rem;
             color: #27ae60;
-            margin: 20px 0;
+            margin: 10px 0;
             font-weight: 900;
         }
 
@@ -119,10 +106,9 @@
             padding: 12px 25px;
             border-radius: 8px;
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
-        /* סרגל גלילה יפה לטקסט */
         .song-lyrics::-webkit-scrollbar { width: 6px; }
         .song-lyrics::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
     </style>
@@ -131,9 +117,9 @@
 
 <div class="container">
     <div id="game-screen">
-        <div class="progress" id="progress">טוען נתונים...</div>
+        <div class="progress" id="progress">מתחבר למאגר השירים...</div>
         <h1 id="song-title">מי הכותב?</h1>
-        <div class="song-lyrics" id="song-lyrics">מתחברים לשרת...</div>
+        <div class="song-lyrics" id="song-lyrics">אנא המתן רגע...</div>
         
         <div class="buttons-container" id="controls" style="display: none;">
             <button class="btn-noam" onclick="checkAnswer('noam')">נעם חורב</button>
@@ -143,21 +129,19 @@
 
     <div id="result-screen">
         <h1>המשחק הסתיים!</h1>
-        <p>צדקת ב-</p>
+        <p>התוצאה הסופית שלך:</p>
         <div class="score-display" id="final-score">0 / 8</div>
-        <p>שירים מתוך 8</p>
+        <p>תשובות נכונות</p>
         
-        <button onclick="location.reload()" style="background: #eee; color: #333; max-width: 100%;">נסה שוב</button>
+        <button onclick="location.reload()" style="background: #eee; color: #333; max-width: 100%;">שחק שוב</button>
         <br>
         <a href="../../index.html" class="home-btn">חזרה לתפריט הראשי</a>
     </div>
 </div>
 
 <script>
-    // הכתובת הגולמית של קובץ ה-JSON ב-GitHub
     const jsonUrl = "https://raw.githubusercontent.com/DanielL100/Riddles/main/Games/3/songs.txt";
 
-    let songsData = [];
     let currentPlaylist = [];
     let currentIndex = 0;
     let score = 0;
@@ -169,38 +153,36 @@
 
         try {
             const response = await fetch(jsonUrl);
-            if (!response.ok) throw new Error("Network response was not ok");
+            if (!response.ok) throw new Error("Network error");
             
-            songsData = await response.json();
+            const rawData = await response.json();
 
-            // ערבוב השירים ובחירת 8 הראשונים מהרשימה המעורבבת
-            currentPlaylist = [...songsData]
+            // תיקון השגיאה: המרת האובייקט למערך של ערכים
+            const songsArray = Object.values(rawData);
+
+            // ערבוב ובחירת 8 שירים
+            currentPlaylist = songsArray
                 .sort(() => Math.random() - 0.5)
                 .slice(0, 8);
 
-            if (currentPlaylist.length === 0) {
-                lyricsBox.innerText = "לא נמצאו שירים בקובץ הנתונים.";
-                return;
-            }
+            if (currentPlaylist.length === 0) throw new Error("No songs found");
 
             controls.style.display = 'flex';
             renderQuestion();
 
         } catch (error) {
-            console.error("Error loading JSON:", error);
-            lyricsBox.innerText = "שגיאה בטעינת השירים. וודא שקובץ ה-JSON תקין ונגיש ב-GitHub.";
+            console.error("Error:", error);
+            lyricsBox.innerText = "שגיאה בטעינת הקובץ. וודא שקובץ ה-JSON ב-GitHub תקין (ללא פסיק מיותר בסוף ועם Escape למרכאות).";
             progress.innerText = "שגיאה";
         }
     }
 
     function renderQuestion() {
         if (currentIndex < currentPlaylist.length) {
-            const currentSong = currentPlaylist[currentIndex];
-            document.getElementById('song-title').innerText = currentSong.title;
-            document.getElementById('song-lyrics').innerText = currentSong.lyrics;
+            const currentItem = currentPlaylist[currentIndex];
+            document.getElementById('song-title').innerText = currentItem.title;
+            document.getElementById('song-lyrics').innerText = currentItem.song;
             document.getElementById('progress').innerText = `שיר ${currentIndex + 1} מתוך ${currentPlaylist.length}`;
-            
-            // גלילה לראש הטקסט בכל שיר חדש
             document.getElementById('song-lyrics').scrollTop = 0;
         } else {
             finishGame();
@@ -208,12 +190,9 @@
     }
 
     function checkAnswer(playerChoice) {
-        const correctAnswer = currentPlaylist[currentIndex].writer;
-
-        if (playerChoice === correctAnswer) {
+        if (playerChoice === currentPlaylist[currentIndex].writer) {
             score++;
         }
-
         currentIndex++;
         renderQuestion();
     }
@@ -224,7 +203,6 @@
         document.getElementById('final-score').innerText = `${score} / ${currentPlaylist.length}`;
     }
 
-    // הפעלה ראשונית
     loadSongs();
 </script>
 
