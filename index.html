@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אינדקס חידות ומשחקים</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 { color: var(--primary-color); margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 30px; }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .game-link {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px 15px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .game-link:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background-color: #fff;
+            color: var(--accent-color);
+        }
+
+        .game-number {
+            font-size: 0.8rem;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        #status { margin-top: 20px; color: #888; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>ארכיון המשחקים</h1>
+    <p>בחר שלב כדי להתחיל</p>
+
+    <div class="games-grid" id="gamesGrid">
+        </div>
+
+    <div id="status">מחפש משחקים...</div>
+
+    <script>
+        // בגלל שהקובץ יושב בתוך ה-Repo, אנחנו מושכים את שם המשתמש והמאגר מהכתובת הנוכחית
+        const repoPath = window.location.pathname.split('/')[1]; // שם ה-Repo
+        const owner = window.location.hostname.split('.')[0];   // שם המשתמש
+        
+        // כתובת ה-API למשיכת תוכן תיקיית Games
+        const apiUrl = `https://api.github.com/repos/DanielL100/Riddles/contents/Games`;
+
+        async function loadGames() {
+            const grid = document.getElementById('gamesGrid');
+            const status = document.getElementById('status');
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error();
+                
+                const data = await response.json();
+
+                // סינון תיקיות שמכילות מספרים ומיון
+                const folders = data
+                    .filter(item => item.type === 'dir')
+                    .sort((a, b) => parseInt(a.name) - parseInt(b.name));
+
+                if (folders.length === 0) {
+                    status.innerText = "לא נמצאו תיקיות בתוך Games";
+                    return;
+                }
+
+                status.style.display = 'none';
+
+                folders.forEach(folder => {
+                    const card = document.createElement('a');
+                    // קישור יחסי: נכנסים לתיקיית Games, אז לתיקייה המספרית, ואז ל-index.html
+                    card.href = `./Games/${folder.name}/index.html`;
+                    card.className = 'game-link';
+                    
+                    card.innerHTML = `
+                        <span class="game-number">שלב</span>
+                        <span>${folder.name}</span>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+
+            } catch (err) {
+                status.innerText = "שגיאה בטעינת הרשימה. וודא שהתיקייה Games קיימת.";
+            }
+        }
+
+        loadGames();
+    </script>
+</body>
+</html>
