@@ -3,104 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>החידות של דניאל</title>
+    <title>ארכיון החידות</title>
     <style>
         :root {
             --primary: #2c3e50;
             --accent: #3498db;
-            --bg: #f4f7f6;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
         }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: var(--primary); }
-        .container { max-width: 1000px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 40px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
         
-        .subject-section { margin-bottom: 30px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .subject-title { font-size: 1.6rem; border-bottom: 3px solid var(--accent); display: inline-block; margin-bottom: 20px; padding-bottom: 5px; }
+        .subject-section { margin-bottom: 40px; }
+        .subject-title { 
+            font-size: 1.8rem; 
+            color: var(--primary);
+            background: #fff;
+            padding: 10px 20px;
+            border-right: 5px solid var(--accent);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: block;
+            margin-bottom: 25px;
+        }
         
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .games-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; 
+        }
         
         .card { 
-            background: white; border: 1px solid #ddd; border-radius: 12px; padding: 15px; 
-            text-align: center; transition: 0.3s; position: relative; display: flex; flex-direction: column; justify-content: space-between;
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            padding: 15px; 
+            text-align: center; 
+            transition: 0.3s ease; 
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid #eef0f2;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: var(--accent); }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.08); border-color: var(--accent); }
 
-        /* סגנון לתמונה קטנה (Thumbnail) */
-        .thumb { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
-        .icon-link { font-size: 40px; margin-bottom: 10px; display: block; text-decoration: none; }
+        .media-container {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f2f5;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .thumb { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: 0.3s; }
+        .thumb:hover { filter: brightness(0.8); }
+
+        .icon-web { font-size: 50px; text-decoration: none; }
         
-        .game-name { font-weight: bold; display: block; margin-top: 5px; color: var(--primary); }
-        .btn-link { margin-top: 10px; display: inline-block; padding: 5px 15px; background: var(--accent); color: white; text-decoration: none; border-radius: 5px; font-size: 0.9rem; }
+        .game-name { font-weight: bold; font-size: 1.1rem; margin: 5px 0; color: #333; }
+        .file-type { font-size: 0.8rem; color: #888; margin-bottom: 10px; }
+        
+        .action-btn { 
+            margin-top: auto; 
+            padding: 8px 15px; 
+            background: var(--accent); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .action-btn:hover { background: #2980b9; }
 
-        /* Modal (Pop-up) Styles */
-        #modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; flex-direction: column; }
-        #modal img { max-width: 90%; max-height: 80%; border-radius: 5px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-        .modal-tools { margin-top: 20px; display: flex; gap: 20px; }
-        .close-modal { color: white; font-size: 30px; cursor: pointer; position: absolute; top: 20px; right: 30px; }
-        .download-btn { padding: 10px 20px; background: #27ae60; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        /* Modal Pop-up */
+        #modal { 
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.95); 
+            justify-content: center; align-items: center; flex-direction: column; 
+        }
+        #modal img { max-width: 90%; max-height: 80%; object-fit: contain; border: 2px solid #444; }
+        .close-modal { color: white; font-size: 40px; cursor: pointer; position: absolute; top: 20px; right: 30px; font-weight: bold; }
+        .modal-tools { margin-top: 25px; }
+        .download-btn { padding: 12px 30px; background: #27ae60; color: white; text-decoration: none; border-radius: 30px; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>ארכיון המשחקים והחידות</h1>
+        <h1>מאגר החידות והפתרונות</h1>
+        <p>בחר נושא לעיון בתכנים</p>
     </header>
     <div id="main-content"></div>
 </div>
 
 <div id="modal">
     <span class="close-modal" onclick="closeModal()">&times;</span>
-    <img id="modal-img" src="" alt="Preview">
+    <img id="modal-img" src="">
     <div class="modal-tools">
-        <a id="download-link" href="" download class="download-btn">הורד תמונה</a>
+        <a id="download-link" href="" download class="download-btn">⬇️ הורד קובץ</a>
     </div>
 </div>
 
 <script>
     const jsonUrl = "./riddles.json";
 
-    async function init() {
-        const contentArea = document.getElementById('main-content');
+    async function renderApp() {
+        const container = document.getElementById('main-content');
         try {
-            const res = await fetch(jsonUrl);
-            const data = await res.json();
+            const response = await fetch(jsonUrl);
+            const data = await response.json();
 
-            for (const [subject, games] of Object.entries(data)) {
-                const section = document.createElement('div');
+            for (const [subjectName, games] of Object.entries(data)) {
+                const section = document.createElement('section');
                 section.className = 'subject-section';
-                section.innerHTML = `<h2 class="subject-title">${subject}</h2>`;
+                section.innerHTML = `<h2 class="subject-title">${subjectName}</h2>`;
                 
                 const grid = document.createElement('div');
                 grid.className = 'games-grid';
 
-                for (const [id, info] of Object.entries(games)) {
+                for (const [gameId, info] of Object.entries(games)) {
                     const card = document.createElement('div');
                     card.className = 'card';
                     
-                    const filePath = `./Games/${subject}/${id}/${info.ref}`;
+                    // בניית הנתיב לפי שם הנושא (התיקייה) ישירות מה-JSON
+                    const filePath = `./${subjectName}/${gameId}/${info.ref}`;
                     const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(info.ref);
 
+                    let mediaHTML = "";
+                    let actionHTML = "";
+
                     if (isImage) {
-                        card.innerHTML = `
-                            <img src="${filePath}" class="thumb" onclick="openModal('${filePath}')">
-                            <span class="game-name">${info.name}</span>
-                            <small>(תמונה)</small>
-                        `;
+                        mediaHTML = `<div class="media-container"><img src="${filePath}" class="thumb" onclick="openModal('${filePath}')"></div>`;
+                        actionHTML = `<a href="javascript:void(0)" onclick="openModal('${filePath}')" class="action-btn">הגדל תמונה</a>`;
                     } else {
-                        card.innerHTML = `
-                            <a href="${filePath}" target="_blank" class="icon-link">🎮</a>
-                            <span class="game-name">${info.name}</span>
-                            <a href="${filePath}" target="_blank" class="btn-link">פתח משחק</a>
-                        `;
+                        mediaHTML = `<div class="media-container"><a href="${filePath}" target="_blank" class="icon-web">🌐</a></div>`;
+                        actionHTML = `<a href="${filePath}" target="_blank" class="action-btn">פתח אתר</a>`;
                     }
+
+                    card.innerHTML = `
+                        ${mediaHTML}
+                        <span class="game-name">${info.name}</span>
+                        <span class="file-type">${info.ref}</span>
+                        ${actionHTML}
+                    `;
                     grid.appendChild(card);
                 }
                 section.appendChild(grid);
-                contentArea.appendChild(section);
+                container.appendChild(section);
             }
         } catch (e) {
-            contentArea.innerHTML = "שגיאה בטעינת הנתונים.";
+            container.innerHTML = `<div style="text-align:center; color:red; padding:50px;">
+                <h3>שגיאה בטעינת הקבצים</h3>
+                <p>וודא שקובץ riddles.json קיים ותקין בתיקיית השורש.</p>
+            </div>`;
         }
     }
 
@@ -108,18 +168,19 @@
         document.getElementById('modal-img').src = src;
         document.getElementById('download-link').href = src;
         document.getElementById('modal').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // מניעת גלילה כשהמודאל פתוח
     }
 
     function closeModal() {
         document.getElementById('modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
 
-    // סגירת מודאל בלחיצה מחוץ לתמונה
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('modal')) closeModal();
+    window.onclick = function(e) {
+        if (e.target == document.getElementById('modal')) closeModal();
     }
 
-    init();
+    renderApp();
 </script>
 </body>
 </html>
