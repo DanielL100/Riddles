@@ -3,149 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מרכז המשחקים והחידות</title>
+    <title>החידות של דניאל</title>
     <style>
         :root {
             --primary: #2c3e50;
             --accent: #3498db;
             --bg: #f4f7f6;
         }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 40px 20px;
-            color: var(--primary);
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        header { text-align: center; margin-bottom: 50px; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: var(--primary); }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
         
-        .subject-section {
-            margin-bottom: 40px;
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .subject-section { margin-bottom: 30px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .subject-title { font-size: 1.6rem; border-bottom: 3px solid var(--accent); display: inline-block; margin-bottom: 20px; padding-bottom: 5px; }
+        
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        
+        .card { 
+            background: white; border: 1px solid #ddd; border-radius: 12px; padding: 15px; 
+            text-align: center; transition: 0.3s; position: relative; display: flex; flex-direction: column; justify-content: space-between;
         }
-        .subject-title {
-            font-size: 1.8rem;
-            border-bottom: 3px solid var(--accent);
-            display: inline-block;
-            margin-bottom: 20px;
-            padding-bottom: 5px;
-        }
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-        }
-        .game-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 20px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        .game-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .game-number {
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 8px;
-        }
-        .game-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--accent);
-        }
-        #loader { text-align: center; font-style: italic; color: #666; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: var(--accent); }
+
+        /* סגנון לתמונה קטנה (Thumbnail) */
+        .thumb { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
+        .icon-link { font-size: 40px; margin-bottom: 10px; display: block; text-decoration: none; }
+        
+        .game-name { font-weight: bold; display: block; margin-top: 5px; color: var(--primary); }
+        .btn-link { margin-top: 10px; display: inline-block; padding: 5px 15px; background: var(--accent); color: white; text-decoration: none; border-radius: 5px; font-size: 0.9rem; }
+
+        /* Modal (Pop-up) Styles */
+        #modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; flex-direction: column; }
+        #modal img { max-width: 90%; max-height: 80%; border-radius: 5px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .modal-tools { margin-top: 20px; display: flex; gap: 20px; }
+        .close-modal { color: white; font-size: 30px; cursor: pointer; position: absolute; top: 20px; right: 30px; }
+        .download-btn { padding: 10px 20px; background: #27ae60; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>החידות של דניאל</h1>
-        <p>בחר נושא ומשחק כדי להתחיל</p>
+        <h1>ארכיון המשחקים והחידות</h1>
     </header>
-
-    <div id="loader">טוען את רשימת המשחקים...</div>
     <div id="main-content"></div>
 </div>
 
+<div id="modal">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <img id="modal-img" src="" alt="Preview">
+    <div class="modal-tools">
+        <a id="download-link" href="" download class="download-btn">הורד תמונה</a>
+    </div>
+</div>
+
 <script>
-    // נתיב לקובץ ה-JSON (נמצא באותה תיקייה של ה-index)
     const jsonUrl = "./riddles.json";
 
-    async function loadGallery() {
+    async function init() {
         const contentArea = document.getElementById('main-content');
-        const loader = document.getElementById('loader');
-
         try {
-            const response = await fetch(jsonUrl);
-            if (!response.ok) throw new Error("לא ניתן לטעון את קובץ ה-JSON");
-            const data = await response.json();
+            const res = await fetch(jsonUrl);
+            const data = await res.json();
 
-            loader.style.display = 'none';
-
-            // מעבר על כל נושא (Subject) ב-JSON
-            for (const [subjectName, games] of Object.entries(data)) {
-                
-                // יצירת סקשן לנושא
-                const section = document.createElement('section');
+            for (const [subject, games] of Object.entries(data)) {
+                const section = document.createElement('div');
                 section.className = 'subject-section';
+                section.innerHTML = `<h2 class="subject-title">${subject}</h2>`;
                 
-                const title = document.createElement('h2');
-                title.className = 'subject-title';
-                title.innerText = subjectName;
-                section.appendChild(title);
-
-                // יצירת הגריד למשחקים
                 const grid = document.createElement('div');
                 grid.className = 'games-grid';
 
-                // מעבר על המשחקים בתוך הנושא
-                for (const [gameId, gameInfo] of Object.entries(games)) {
-                    const gameCard = document.createElement('a');
+                for (const [id, info] of Object.entries(games)) {
+                    const card = document.createElement('div');
+                    card.className = 'card';
                     
-                    // בניית הקישור: Games / שם הנושא / מספר המשחק / index.html
-                    gameCard.href = `./Games/${subjectName}/${gameId}/index.html`;
-                    gameCard.className = 'game-card';
+                    const filePath = `./Games/${subject}/${id}/${info.ref}`;
+                    const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(info.ref);
 
-                    gameCard.innerHTML = `
-                        <span class="game-number">משחק ${gameId}</span>
-                        <span class="game-name">${gameInfo.name}</span>
-                    `;
-
-                    grid.appendChild(gameCard);
+                    if (isImage) {
+                        card.innerHTML = `
+                            <img src="${filePath}" class="thumb" onclick="openModal('${filePath}')">
+                            <span class="game-name">${info.name}</span>
+                            <small>(תמונה)</small>
+                        `;
+                    } else {
+                        card.innerHTML = `
+                            <a href="${filePath}" target="_blank" class="icon-link">🎮</a>
+                            <span class="game-name">${info.name}</span>
+                            <a href="${filePath}" target="_blank" class="btn-link">פתח משחק</a>
+                        `;
+                    }
+                    grid.appendChild(card);
                 }
-
                 section.appendChild(grid);
                 contentArea.appendChild(section);
             }
-
-        } catch (error) {
-            console.error(error);
-            loader.innerText = "שגיאה בטעינת הנתונים. וודא שקובץ riddles.json קיים ותקין.";
+        } catch (e) {
+            contentArea.innerHTML = "שגיאה בטעינת הנתונים.";
         }
     }
 
-    loadGallery();
-</script>
+    function openModal(src) {
+        document.getElementById('modal-img').src = src;
+        document.getElementById('download-link').href = src;
+        document.getElementById('modal').style.display = 'flex';
+    }
 
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    // סגירת מודאל בלחיצה מחוץ לתמונה
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('modal')) closeModal();
+    }
+
+    init();
+</script>
 </body>
 </html>
