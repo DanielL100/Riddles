@@ -145,12 +145,20 @@
                         actionHTML = `<a href="${filePath}" target="_blank" class="action-btn">פתח אתר</a>`;
                     }
 
-                    card.innerHTML = `
-                        ${mediaHTML}
-                        <span class="game-name">${info.name}</span>
-                        <span class="file-type">${info.ref}</span>
-                        ${actionHTML}
-                    `;
+                    if(info.ref.includes("html")) {
+                        card.innerHTML = `
+                            ${mediaHTML}
+                            <span class="game-name">${info.name}</span>
+                            ${actionHTML}
+                        `;
+                    } else {
+                        card.innerHTML = `
+                            ${mediaHTML}
+                            <span class="game-name">${info.name}</span>
+                            <span class="file-type">${info.ref}</span>
+                            ${actionHTML}
+                        `;
+                    }
                     grid.appendChild(card);
                 }
                 section.appendChild(grid);
